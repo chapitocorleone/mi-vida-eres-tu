@@ -8,23 +8,26 @@
         body { background-color: black; color: white; text-align: center; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; overflow-x: hidden; }
         h1 { color: #ff4d4d; margin-top: 20px; font-size: 1.8em; }
         p.nombres { font-size: 1.1em; margin-bottom: 5px; }
-        p.fecha { font-size: 0.9em; color: #aaaaaa; font-style: italic; margin-bottom: 25px; }
+        
+        /* Estilo del Contador */
+        #contador { font-size: 1em; color: #ff4d4d; font-weight: bold; margin: 15px 0; background: rgba(255, 77, 77, 0.1); padding: 10px; border-radius: 10px; display: inline-block; }
+        p.fecha-fija { font-size: 0.8em; color: #aaaaaa; font-style: italic; margin-bottom: 20px; }
 
         /* Estilo Polaroid */
         .polaroid { background-color: white; padding: 10px 10px 45px 10px; border-radius: 2px; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); display: inline-block; margin-top: 10px; max-width: 80%; position: relative; }
         .polaroid img { width: 100%; height: auto; display: block; }
         .polaroid-text { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; color: #333; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 0.9em; }
 
-        /* Mapa de las Estrellas (Círculo) */
+        /* Mapa de las Estrellas */
         .star-map-container { display: flex; flex-direction: column; align-items: center; margin-top: 30px; }
-        .star-map { width: 250px; height: 250px; border-radius: 50%; border: 2px solid #444; background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center; box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
+        .star-map { width: 220px; height: 220px; border-radius: 50%; border: 2px solid #444; background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center; }
         .star-map-p { color: #888; font-size: 0.8em; margin-top: 10px; letter-spacing: 2px; }
 
         /* Audio */
         audio { margin-top: 25px; width: 100%; max-width: 320px; }
 
         /* Frase Final */
-        .frase-final { margin-top: 35px; font-size: 1em; color: #eeeeee; max-width: 90%; margin-left: auto; margin-right: auto; line-height: 1.5; padding-bottom: 50px; }
+        .frase-final { margin-top: 35px; font-size: 1.1em; color: #eeeeee; max-width: 90%; margin-left: auto; margin-right: auto; line-height: 1.5; padding-bottom: 50px; }
 
         /* Lluvia de corazones */
         .heart-rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
@@ -41,7 +44,9 @@
 
     <h1>❤️ Mi vida eres tú ❤️</h1>
     <p class="nombres">Sergio & Skarleth</p>
-    <p class="fecha">23 de Julio de 2023</p>
+    
+    <div id="contador">Cargando tiempo...</div>
+    <p class="fecha-fija">Desde el 23 de Julio de 2023</p>
     
     <div class="polaroid">
         <img src="foto.jpg" alt="Nosotros">
@@ -61,6 +66,7 @@
     <p class="frase-final">"A nuestra manera y a nuestro paso, pero siempre juntos. Te amo."</p>
 
     <script>
+        // Lluvia de corazones
         function createHearts() {
             const container = document.getElementById('heart-rain');
             for (let i = 0; i < 20; i++) {
@@ -74,6 +80,21 @@
             }
         }
         createHearts();
+
+        // Lógica del Contador
+        const fechaInicio = new Date('July 23, 2023 00:00:00').getTime();
+
+        setInterval(function() {
+            const ahora = new Date().getTime();
+            const distancia = ahora - fechaInicio;
+
+            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+            document.getElementById("contador").innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
+        }, 1000);
     </script>
 </body>
 </html>
