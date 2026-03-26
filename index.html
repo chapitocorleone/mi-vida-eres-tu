@@ -5,23 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para mi esposa ❤️</title>
     <style>
-        body { background-color: black; color: white; text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
-        img { width: 80%; max-width: 400px; border-radius: 15px; border: 2px solid white; margin-top: 20px; }
-        h1 { color: #ff4d4d; }
+        body { background-color: black; color: white; text-align: center; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; overflow-x: hidden; }
+        h1 { color: #ff4d4d; margin-top: 30px; font-size: 1.8em; }
+        p.nombres { font-size: 1.1em; margin-bottom: 5px; }
+        p.fecha { font-size: 0.9em; color: #aaaaaa; font-style: italic; margin-bottom: 25px; }
+
+        /* Estilo Polaroid */
+        .polaroid { background-color: white; padding: 12px 12px 50px 12px; border-radius: 2px; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2); display: inline-block; margin-top: 10px; max-width: 85%; position: relative; }
+        .polaroid img { width: 100%; height: auto; display: block; }
+        .polaroid-text { position: absolute; bottom: 12px; left: 0; width: 100%; text-align: center; color: #333; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 1em; }
+
+        /* Mapa de las Estrellas */
+        .star-map { width: 85%; max-width: 320px; margin: 35px auto 15px auto; border: 1px solid #333; padding: 8px; border-radius: 50%; background-color: #050505; }
+        .star-map img { width: 100%; height: auto; filter: brightness(1.1); border-radius: 50%; }
+        .star-map-p { color: #888; font-size: 0.8em; margin-top: 10px; letter-spacing: 1px; }
+
+        /* Audio */
+        audio { margin-top: 25px; width: 90%; max-width: 350px; height: 35px; }
+
+        /* Frase Actualizada */
+        .frase-final { margin-top: 35px; font-size: 1.1em; color: #eeeeee; max-width: 90%; margin-left: auto; margin-right: auto; line-height: 1.5; font-weight: 300; }
+
+        /* Lluvia de corazones */
+        .heart-rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .heart { position: absolute; color: #ff4d4d; opacity: 0.7; animation: fall linear infinite; }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
-    <h1>❤️ Mi vida eres tú ❤️</h1>
-    <p>Sergio & Skarleth</p>
-    
-    <img src="foto.png" alt="Nosotros">
+    <div class="heart-rain" id="heart-rain"></div>
 
-    <br><br>
+    <h1>❤️ Mi vida eres tú ❤️</h1>
+    <p class="nombres">Sergio & Skarleth</p>
+    <p class="fecha">23 de Julio de 2023</p>
+    
+    <div class="polaroid">
+        <img src="foto.png" alt="Nosotros">
+        <div class="polaroid-text">SIEMPRE JUNTOS</div>
+    </div>
+
+    <div class="star-map">
+        <img src="https://i.imgur.com/8QG7rGk.png" alt="Mapa Estelar">
+        <p class="star-map-p">EL CIELO ESA NOCHE</p>
+    </div>
+
     <audio controls autoplay>
         <source src="musica.mp3" type="audio/mpeg">
-        Tu navegador no soporta la música.
+        Tu navegador no soporta el audio.
     </audio>
 
-    <p style="margin-top: 20px; font-style: italic;">"A nuestra manera y a nuestro paso, pero siempre juntos. Te Amo."</p>
+    <p class="frase-final">"A nuestra manera y a nuestro paso, pero siempre juntos. Te amo."</p>
+
+    <script>
+        function createHearts() {
+            const container = document.getElementById('heart-rain');
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.fontSize = (Math.random() * 0.8 + 0.4) + 'em';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+    </script>
 </body>
 </html>
