@@ -6,34 +6,32 @@
     <title>Para mi esposa ❤️</title>
     <style>
         body { background-color: black; color: white; text-align: center; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; overflow-x: hidden; }
-        h1 { color: #ff4d4d; margin-top: 30px; font-size: 1.8em; }
+        h1 { color: #ff4d4d; margin-top: 20px; font-size: 1.8em; }
         p.nombres { font-size: 1.1em; margin-bottom: 5px; }
         p.fecha { font-size: 0.9em; color: #aaaaaa; font-style: italic; margin-bottom: 25px; }
 
         /* Estilo Polaroid */
-        .polaroid { background-color: white; padding: 12px 12px 50px 12px; border-radius: 2px; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); display: inline-block; margin-top: 10px; max-width: 85%; position: relative; }
-        .polaroid img { width: 100%; height: auto; display: block; border-radius: 2px; }
-        .polaroid-text { position: absolute; bottom: 12px; left: 0; width: 100%; text-align: center; color: #333; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 1em; }
+        .polaroid { background-color: white; padding: 10px 10px 45px 10px; border-radius: 2px; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); display: inline-block; margin-top: 10px; max-width: 80%; position: relative; }
+        .polaroid img { width: 100%; height: auto; display: block; }
+        .polaroid-text { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; color: #333; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 0.9em; }
 
-        /* Mapa de las Estrellas Corregido */
-        .star-map { width: 85%; max-width: 300px; margin: 35px auto 15px auto; border: 2px solid #333; padding: 5px; border-radius: 50%; background-color: #050505; overflow: hidden; height: 300px; display: flex; align-items: center; justify-content: center; }
-        .star-map img { width: 150%; height: 150%; filter: brightness(1.2) contrast(1.1); border-radius: 50%; object-fit: cover; }
-        .star-map-p { color: #888; font-size: 0.8em; margin-top: 10px; letter-spacing: 2px; text-transform: uppercase; }
+        /* Mapa de las Estrellas (Círculo) */
+        .star-map-container { display: flex; flex-direction: column; align-items: center; margin-top: 30px; }
+        .star-map { width: 250px; height: 250px; border-radius: 50%; border: 2px solid #444; background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=800&q=80'); background-size: cover; background-position: center; box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
+        .star-map-p { color: #888; font-size: 0.8em; margin-top: 10px; letter-spacing: 2px; }
 
         /* Audio */
-        audio { margin-top: 25px; width: 90%; max-width: 350px; height: 40px; border-radius: 20px; }
+        audio { margin-top: 25px; width: 100%; max-width: 320px; }
 
         /* Frase Final */
-        .frase-final { margin-top: 40px; font-size: 1.1em; color: #eeeeee; max-width: 90%; margin-left: auto; margin-right: auto; line-height: 1.6; font-weight: 300; margin-bottom: 50px; }
+        .frase-final { margin-top: 35px; font-size: 1em; color: #eeeeee; max-width: 90%; margin-left: auto; margin-right: auto; line-height: 1.5; padding-bottom: 50px; }
 
         /* Lluvia de corazones */
         .heart-rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
         .heart { position: absolute; color: #ff4d4d; opacity: 0.7; animation: fall linear infinite; }
-
         @keyframes fall {
             0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
             10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
     </style>
@@ -46,14 +44,14 @@
     <p class="fecha">23 de Julio de 2023</p>
     
     <div class="polaroid">
-        <img src="foto.png" alt="Nosotros">
+        <img src="foto.jpg" alt="Nosotros">
         <div class="polaroid-text">SIEMPRE JUNTOS</div>
     </div>
 
-    <div class="star-map">
-        <img src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=800&q=80" alt="Cielo Estrellado">
+    <div class="star-map-container">
+        <div class="star-map"></div>
+        <p class="star-map-p">EL CIELO ESA NOCHE</p>
     </div>
-    <p class="star-map-p">EL CIELO ESA NOCHE</p>
 
     <audio controls autoplay>
         <source src="musica.mp3" type="audio/mpeg">
@@ -65,14 +63,13 @@
     <script>
         function createHearts() {
             const container = document.getElementById('heart-rain');
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < 20; i++) {
                 const heart = document.createElement('div');
                 heart.classList.add('heart');
                 heart.innerHTML = '❤️';
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
                 heart.style.animationDelay = (Math.random() * 5) + 's';
-                heart.style.fontSize = (Math.random() * 0.8 + 0.4) + 'em';
                 container.appendChild(heart);
             }
         }
