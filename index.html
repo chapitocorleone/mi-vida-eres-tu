@@ -22,13 +22,13 @@
         audio { margin-top: 25px; width: 100%; max-width: 300px; }
         .frase-final { margin-top: 30px; font-size: 1.1em; font-style: italic; margin-bottom: 40px; }
 
-        /* Raspadito Mejorado */
+        /* Raspadito */
         .scratch-card-container { margin: 20px auto; width: 280px; height: 160px; position: relative; user-select: none; border-radius: 15px; border: 2px solid #ff4d4d; overflow: hidden; background-color: #111; }
         #scratchCanvas { position: absolute; top: 0; left: 0; z-index: 10; cursor: crosshair; touch-action: none; }
         .scratch-card-hidden-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; color: #ff4d4d; font-size: 1.1em; font-weight: bold; z-index: 1; padding: 10px; box-sizing: border-box; }
         .scratch-card-instruction { color: #888; font-size: 0.8em; margin-bottom: 5px; font-style: italic; }
 
-        /* Cupones Corregidos */
+        /* Cupones */
         .cupones-container { display: flex; flex-direction: column; gap: 20px; align-items: center; margin: 30px 0 60px 0; }
         .cupon { background: white; color: black; width: 85%; max-width: 300px; padding: 15px; border-radius: 10px; position: relative; border-left: 8px dashed black; box-shadow: 0 4px 10px rgba(255,255,255,0.1); }
         .cupon h3 { margin: 0; font-size: 1.1em; color: #ff4d4d; text-transform: uppercase; }
@@ -106,3 +106,28 @@
             ctx.beginPath();
             ctx.arc(x, y, 25, 0, Math.PI * 2);
             ctx.fill();
+        }
+
+        canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+        canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); e.preventDefault(); }, {passive: false});
+        canvas.addEventListener('mousemove', scratch);
+        canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); }, {passive: false});
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('touchend', () => isDrawing = false);
+        
+        // Esto asegura que cada que cargue la página se reinicie el canvas
+        window.addEventListener('load', initCanvas);
+
+        const fechaInicio = new Date('July 23, 2023 00:00:00').getTime();
+        setInterval(function() {
+            const ahora = new Date().getTime();
+            const distancia = ahora - fechaInicio;
+            const dias = Math.floor(distancia / (1000*60*60*24));
+            const horas = Math.floor((distancia % (1000*60*60*24)) / (1000*60*60));
+            const minutos = Math.floor((distancia % (1000*60*60)) / (1000*60));
+            const segundos = Math.floor((distancia % (1000*60)) / 1000);
+            document.getElementById("contador").innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
+        }, 1000);
+    </script>
+</body>
+</html>
