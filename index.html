@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para mi esposa ❤️</title>
     <style>
-        body { background-color: black; color: white; text-align: center; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; overflow-x: hidden; }
+        body { background-color: black; color: white; text-align: center; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; overflow-x: hidden; touch-action: pan-y; }
         h1 { color: #ff4d4d; margin-top: 20px; font-size: 1.8em; }
         p.nombres { font-size: 1.1em; margin-bottom: 5px; }
         
@@ -22,13 +22,12 @@
         audio { margin-top: 25px; width: 100%; max-width: 300px; }
         .frase-final { margin-top: 30px; font-size: 1.1em; font-style: italic; margin-bottom: 40px; }
 
-        /* Raspadito antes de los cupones */
-        .scratch-card-container { margin: 20px auto; width: 280px; height: 150px; position: relative; user-select: none; }
-        #scratchCanvas { position: absolute; top: 0; left: 0; z-index: 2; border-radius: 15px; cursor: crosshair; touch-action: none; background-color: #888; }
-        .scratch-card-hidden-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; color: #ff4d4d; font-size: 1.1em; font-weight: bold; z-index: 1; background-color: #111; border-radius: 15px; border: 2px solid #ff4d4d; box-sizing: border-box; padding: 10px; }
+        /* Raspadito Blindado (Nivel 2) */
+        .scratch-card-container { margin: 20px auto; width: 280px; height: 150px; position: relative; user-select: none; border-radius: 15px; border: 2px solid #ff4d4d; box-sizing: border-box; background-color: #111; overflow: hidden; }
+        #scratchCanvas { position: absolute; top: 0; left: 0; z-index: 3; cursor: crosshair; touch-action: none; background-color: transparent; }
+        .scratch-card-hidden-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; color: #ff4d4d; font-size: 1.1em; font-weight: bold; z-index: 1; padding: 10px; box-sizing: border-box; }
         .scratch-card-instruction { color: #888; font-size: 0.8em; margin-bottom: 10px; font-style: italic; }
 
-        /* Cupones al Final */
         .cupones-container { display: flex; flex-direction: column; gap: 15px; align-items: center; margin: 30px 0 60px 0; }
         .cupon { background: white; color: black; width: 85%; max-width: 300px; padding: 15px; border-radius: 10px; position: relative; border-left: 8px dashed black; }
         .cupon h3 { margin: 0; font-size: 1.1em; color: #ff4d4d; text-transform: uppercase; }
@@ -37,7 +36,7 @@
 
         .heart-rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
         .heart { position: absolute; color: #ff4d4d; opacity: 0.5; animation: fall linear infinite; }
-        @keyframes fall { 0% { transform: translateY(-10vh); opacity: 0; } 100% { transform: translateY(110vh); opacity: 0; } }
+        @keyframes fall { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
     </style>
 </head>
 <body>
@@ -73,7 +72,7 @@
     <div class="cupones-container">
         <div class="cupon"><h3>CENA ESPECIAL</h3><p>En tu lugar favorito 🍽️</p></div>
         <div class="cupon"><h3>UNA CAGUAMA</h3><p>Bien helada para los dos 🍻</p></div>
-        <div class="cupon"><h3>NOCHE DE CINE</h3><p>Tú eliges la película 🍿</p></div>
+        <div class="cupones"><h3>NOCHE DE CINE</h3><p>Tú eliges la película 🍿</p></div>
     </div>
 
     <script>
@@ -84,21 +83,33 @@
         function initCanvas() {
             canvas.width = 280;
             canvas.height = 150;
-            ctx.fillStyle = '#888';
+            
+            // 1. Rellenar el fondo gris (capa sólida)
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = '#999'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 2. Dibujar el texto sobre el gris (en el mismo canvas)
             ctx.fillStyle = '#333';
-            ctx.font = 'bold 20px Arial';
+            ctx.font = 'bold 22px Arial';
             ctx.textAlign = 'center';
             ctx.fillText('RASPA AQUÍ', 140, 85);
+            
+            // 3. Cambiar el modo para "borrar" todo lo que dibujamos antes
             ctx.globalCompositeOperation = 'destination-out';
         }
 
         function scratch(e) {
             if (!isDrawing) return;
             const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-            ctx.lineWidth = 40;
+            // Soporte para touch y mouse
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            
+            ctx.lineWidth = 45; // Raspado más ancho
             ctx.lineCap = 'round';
             ctx.beginPath();
             ctx.arc(x, y, 25, 0, Math.PI * 2);
@@ -107,13 +118,17 @@
 
         canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
         canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); e.preventDefault(); }, {passive: false});
+        
         canvas.addEventListener('mousemove', scratch);
         canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); }, {passive: false});
+        
         canvas.addEventListener('mouseup', () => isDrawing = false);
         canvas.addEventListener('touchend', () => isDrawing = false);
+        
+        // Inicializar
+        initCanvas();
 
-        window.onload = initCanvas;
-
+        // Contador
         const fechaInicio = new Date('July 23, 2023 00:00:00').getTime();
         setInterval(function() {
             const ahora = new Date().getTime();
