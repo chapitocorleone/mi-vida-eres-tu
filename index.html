@@ -2,51 +2,42 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para mi esposa ❤️</title>
     <style>
-        body { background-color: black; color: white; text-align: center; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; overflow-x: hidden; touch-action: pan-y; }
+        body { background-color: black; color: white; text-align: center; font-family: 'Arial', sans-serif; margin: 0; padding: 20px; overflow-x: hidden; }
         h1 { color: #ff4d4d; margin-top: 20px; font-size: 1.8em; }
         p.nombres { font-size: 1.1em; margin-bottom: 5px; }
         
-        /* Contador */
         #contador { font-size: 1.1em; color: #ff4d4d; font-weight: bold; margin: 15px 0; background: rgba(255, 77, 77, 0.1); padding: 10px; border-radius: 10px; display: inline-block; border: 1px solid #ff4d4d; }
         p.fecha-fija { font-size: 0.8em; color: #aaaaaa; font-style: italic; margin-bottom: 20px; }
 
-        /* Cupones */
-        .cupones-container { display: flex; flex-direction: column; gap: 15px; align-items: center; margin: 25px 0; }
-        .cupon { background: white; color: black; width: 85%; max-width: 300px; padding: 15px; border-radius: 10px; position: relative; border-left: 8px dashed black; box-shadow: 0 4px 10px rgba(255,255,255,0.2); }
+        .polaroid { background-color: white; padding: 10px 10px 45px 10px; border-radius: 2px; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); display: inline-block; margin-top: 10px; max-width: 80%; position: relative; }
+        .polaroid img { width: 100%; height: auto; display: block; }
+        .polaroid-text { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; color: #333; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 0.9em; }
+
+        .star-map-container { display: flex; flex-direction: column; align-items: center; margin-top: 30px; }
+        .star-map { width: 200px; height: 200px; border-radius: 50%; border: 2px solid #444; background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=800&q=80'); background-size: cover; }
+        
+        audio { margin-top: 25px; width: 100%; max-width: 300px; }
+        .frase-final { margin-top: 30px; font-size: 1.1em; font-style: italic; margin-bottom: 40px; }
+
+        /* Raspadito antes de los cupones */
+        .scratch-card-container { margin: 20px auto; width: 280px; height: 150px; position: relative; user-select: none; }
+        #scratchCanvas { position: absolute; top: 0; left: 0; z-index: 2; border-radius: 15px; cursor: crosshair; touch-action: none; background-color: #888; }
+        .scratch-card-hidden-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; color: #ff4d4d; font-size: 1.1em; font-weight: bold; z-index: 1; background-color: #111; border-radius: 15px; border: 2px solid #ff4d4d; box-sizing: border-box; padding: 10px; }
+        .scratch-card-instruction { color: #888; font-size: 0.8em; margin-bottom: 10px; font-style: italic; }
+
+        /* Cupones al Final */
+        .cupones-container { display: flex; flex-direction: column; gap: 15px; align-items: center; margin: 30px 0 60px 0; }
+        .cupon { background: white; color: black; width: 85%; max-width: 300px; padding: 15px; border-radius: 10px; position: relative; border-left: 8px dashed black; }
         .cupon h3 { margin: 0; font-size: 1.1em; color: #ff4d4d; text-transform: uppercase; }
         .cupon p { margin: 5px 0 0; font-size: 0.9em; font-weight: bold; }
         .cupon::after { content: "VALE POR:"; position: absolute; top: -10px; left: 15px; background: #ff4d4d; color: white; font-size: 0.6em; padding: 2px 8px; border-radius: 5px; }
 
-        /* Raspadito */
-        .scratch-card-container { margin: 40px auto; width: 85%; max-width: 320px; position: relative; user-select: none; }
-        .scratch-card-canvas { background: #666; width: 100%; height: 180px; border-radius: 15px; cursor: crosshair; touch-action: none; box-shadow: 0 0 15px rgba(255, 77, 77, 0.5); z-index: 2; position: relative; }
-        .scratch-card-hidden-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; color: #ff4d4d; font-size: 1.2em; font-weight: bold; z-index: 1; padding: 20px; background-color: #111; border-radius: 15px; border: 2px solid #ff4d4d; box-sizing: border-box; }
-        .scratch-card-hidden-content p { margin: 10px 0; line-height: 1.4; }
-        .scratch-card-instruction { color: #888; font-size: 0.8em; margin-top: 10px; font-style: italic; }
-
-        /* Polaroid */
-        .polaroid { background-color: white; padding: 10px 10px 45px 10px; border-radius: 2px; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3); display: inline-block; margin-top: 30px; max-width: 80%; position: relative; }
-        .polaroid img { width: 100%; height: auto; display: block; }
-        .polaroid-text { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; color: #333; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 0.9em; }
-
-        /* Estrellas */
-        .star-map-container { display: flex; flex-direction: column; align-items: center; margin-top: 40px; }
-        .star-map { width: 220px; height: 220px; border-radius: 50%; border: 2px solid #444; background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=800&q=80'); background-size: cover; }
-        .star-map-p { color: #888; font-size: 0.8em; margin-top: 10px; letter-spacing: 2px; }
-
-        audio { margin-top: 25px; width: 100%; max-width: 320px; }
-        .frase-final { margin-top: 40px; font-size: 1.1em; color: #eeeeee; max-width: 90%; margin-left: auto; margin-right: auto; line-height: 1.5; padding-bottom: 60px; font-style: italic; }
-
-        /* Lluvia corazones */
         .heart-rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-        .heart { position: absolute; color: #ff4d4d; opacity: 0.7; animation: fall linear infinite; }
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
+        .heart { position: absolute; color: #ff4d4d; opacity: 0.5; animation: fall linear infinite; }
+        @keyframes fall { 0% { transform: translateY(-10vh); opacity: 0; } 100% { transform: translateY(110vh); opacity: 0; } }
     </style>
 </head>
 <body>
@@ -54,25 +45,9 @@
 
     <h1>❤️ Mi vida eres tú ❤️</h1>
     <p class="nombres">Sergio & Skarleth</p>
-    
     <div id="contador">Calculando...</div>
     <p class="fecha-fija">Desde el 23 de Julio de 2023</p>
 
-    <div class="cupones-container">
-        <div class="cupon"><h3>CENA ESPECIAL</h3><p>En tu lugar favorito 🍽️</p></div>
-        <div class="cupon"><h3>UNA CAGUAMA</h3><p>Bien helada para los dos 🍻</p></div>
-        <div class="cupon"><h3>NOCHE DE CINE</h3><p>Tú eliges la película 🍿</p></div>
-    </div>
-    
-    <div class="scratch-card-container">
-        <canvas class="scratch-card-canvas" id="scratchCanvas"></canvas>
-        <div class="scratch-card-hidden-content">
-            <p>🔥 SORPRESA 🔥</p>
-            <p>"Haz ganado una chupada de 6"</p>
-        </div>
-        <p class="scratch-card-instruction">Pasa el dedo para raspar 🪙</p>
-    </div>
-    
     <div class="polaroid">
         <img src="foto.jpg" alt="Nosotros">
         <div class="polaroid-text">SIEMPRE JUNTOS</div>
@@ -80,83 +55,75 @@
 
     <div class="star-map-container">
         <div class="star-map"></div>
-        <p class="star-map-p">EL CIELO ESA NOCHE</p>
+        <p style="color: #888; font-size: 0.8em; margin-top: 10px;">EL CIELO ESA NOCHE</p>
     </div>
 
-    <audio controls autoplay>
-        <source src="musica.mp3" type="audio/mpeg">
-    </audio>
-
+    <audio controls autoplay><source src="musica.mp3" type="audio/mpeg"></audio>
     <p class="frase-final">"A nuestra manera y a nuestro paso, pero siempre juntos. Te amo."</p>
 
+    <p class="scratch-card-instruction">Pasa el dedo para raspar 🪙</p>
+    <div class="scratch-card-container">
+        <div class="scratch-card-hidden-content">
+            <p>🔥 SORPRESA 🔥</p>
+            <p>"una chupada de 6"</p>
+        </div>
+        <canvas id="scratchCanvas"></canvas>
+    </div>
+
+    <div class="cupones-container">
+        <div class="cupon"><h3>CENA ESPECIAL</h3><p>En tu lugar favorito 🍽️</p></div>
+        <div class="cupon"><h3>UNA CAGUAMA</h3><p>Bien helada para los dos 🍻</p></div>
+        <div class="cupon"><h3>NOCHE DE CINE</h3><p>Tú eliges la película 🍿</p></div>
+    </div>
+
     <script>
-        // Lógica corazones
-        const container = document.getElementById('heart-rain');
-        for (let i = 0; i < 15; i++) {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-            heart.style.animationDelay = (Math.random() * 5) + 's';
-            container.appendChild(heart);
-        }
-
-        // Lógica Contador
-        const fechaInicio = new Date('July 23, 2023 00:00:00').getTime();
-        setInterval(function() {
-            const ahora = new Date().getTime();
-            const distancia = ahora - fechaInicio;
-            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
-            document.getElementById("contador").innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
-        }, 1000);
-
-        // Lógica Raspadito
         const canvas = document.getElementById('scratchCanvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
-        let lastX = 0, lastY = 0;
 
         function initCanvas() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            ctx.fillStyle = '#666'; 
+            canvas.width = 280;
+            canvas.height = 150;
+            ctx.fillStyle = '#888';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.globalCompositeOperation = 'destination-out'; 
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('RASPA AQUÍ', 140, 85);
+            ctx.globalCompositeOperation = 'destination-out';
         }
 
-        function draw(e) {
+        function scratch(e) {
             if (!isDrawing) return;
             const rect = canvas.getBoundingClientRect();
-            let x, y;
-            if (e.type.includes('touch')) {
-                x = e.touches[0].clientX - rect.left;
-                y = e.touches[0].clientY - rect.top;
-            } else {
-                x = e.clientX - rect.left;
-                y = e.clientY - rect.top;
-            }
-            ctx.lineWidth = 45; 
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+            ctx.lineWidth = 40;
             ctx.lineCap = 'round';
             ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            [lastX, lastY] = [x, y];
+            ctx.arc(x, y, 25, 0, Math.PI * 2);
+            ctx.fill();
         }
 
-        canvas.addEventListener('mousedown', (e) => { isDrawing = true; const rect = canvas.getBoundingClientRect(); [lastX, lastY] = [e.clientX - rect.left, e.clientY - rect.top]; });
-        canvas.addEventListener('touchstart', (e) => { isDrawing = true; const rect = canvas.getBoundingClientRect(); [lastX, lastY] = [e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top]; });
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); });
+        canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+        canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); e.preventDefault(); }, {passive: false});
+        canvas.addEventListener('mousemove', scratch);
+        canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); }, {passive: false});
         canvas.addEventListener('mouseup', () => isDrawing = false);
         canvas.addEventListener('touchend', () => isDrawing = false);
 
         window.onload = initCanvas;
-        window.onresize = initCanvas;
+
+        const fechaInicio = new Date('July 23, 2023 00:00:00').getTime();
+        setInterval(function() {
+            const ahora = new Date().getTime();
+            const distancia = ahora - fechaInicio;
+            const dias = Math.floor(distancia / (1000*60*60*24));
+            const horas = Math.floor((distancia % (1000*60*60*24)) / (1000*60*60));
+            const minutos = Math.floor((distancia % (1000*60*60)) / (1000*60));
+            const segundos = Math.floor((distancia % (1000*60)) / 1000);
+            document.getElementById("contador").innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
+        }, 1000);
     </script>
 </body>
 </html>
