@@ -22,14 +22,15 @@
         audio { margin-top: 25px; width: 100%; max-width: 300px; }
         .frase-final { margin-top: 30px; font-size: 1.1em; font-style: italic; margin-bottom: 40px; }
 
-        /* Raspadito Blindado (Nivel 2) */
-        .scratch-card-container { margin: 20px auto; width: 280px; height: 150px; position: relative; user-select: none; border-radius: 15px; border: 2px solid #ff4d4d; box-sizing: border-box; background-color: #111; overflow: hidden; }
-        #scratchCanvas { position: absolute; top: 0; left: 0; z-index: 3; cursor: crosshair; touch-action: none; background-color: transparent; }
+        /* Raspadito Mejorado */
+        .scratch-card-container { margin: 20px auto; width: 280px; height: 160px; position: relative; user-select: none; border-radius: 15px; border: 2px solid #ff4d4d; overflow: hidden; background-color: #111; }
+        #scratchCanvas { position: absolute; top: 0; left: 0; z-index: 10; cursor: crosshair; touch-action: none; }
         .scratch-card-hidden-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; color: #ff4d4d; font-size: 1.1em; font-weight: bold; z-index: 1; padding: 10px; box-sizing: border-box; }
-        .scratch-card-instruction { color: #888; font-size: 0.8em; margin-bottom: 10px; font-style: italic; }
+        .scratch-card-instruction { color: #888; font-size: 0.8em; margin-bottom: 5px; font-style: italic; }
 
-        .cupones-container { display: flex; flex-direction: column; gap: 15px; align-items: center; margin: 30px 0 60px 0; }
-        .cupon { background: white; color: black; width: 85%; max-width: 300px; padding: 15px; border-radius: 10px; position: relative; border-left: 8px dashed black; }
+        /* Cupones Corregidos */
+        .cupones-container { display: flex; flex-direction: column; gap: 20px; align-items: center; margin: 30px 0 60px 0; }
+        .cupon { background: white; color: black; width: 85%; max-width: 300px; padding: 15px; border-radius: 10px; position: relative; border-left: 8px dashed black; box-shadow: 0 4px 10px rgba(255,255,255,0.1); }
         .cupon h3 { margin: 0; font-size: 1.1em; color: #ff4d4d; text-transform: uppercase; }
         .cupon p { margin: 5px 0 0; font-size: 0.9em; font-weight: bold; }
         .cupon::after { content: "VALE POR:"; position: absolute; top: -10px; left: 15px; background: #ff4d4d; color: white; font-size: 0.6em; padding: 2px 8px; border-radius: 5px; }
@@ -72,7 +73,7 @@
     <div class="cupones-container">
         <div class="cupon"><h3>CENA ESPECIAL</h3><p>En tu lugar favorito 🍽️</p></div>
         <div class="cupon"><h3>UNA CAGUAMA</h3><p>Bien helada para los dos 🍻</p></div>
-        <div class="cupones"><h3>NOCHE DE CINE</h3><p>Tú eliges la película 🍿</p></div>
+        <div class="cupon"><h3>NOCHE DE CINE</h3><p>Tú eliges la película 🍿</p></div>
     </div>
 
     <script>
@@ -82,63 +83,26 @@
 
         function initCanvas() {
             canvas.width = 280;
-            canvas.height = 150;
-            
-            // 1. Rellenar el fondo gris (capa sólida)
+            canvas.height = 160;
             ctx.globalCompositeOperation = 'source-over';
             ctx.fillStyle = '#999'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // 2. Dibujar el texto sobre el gris (en el mismo canvas)
             ctx.fillStyle = '#333';
             ctx.font = 'bold 22px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('RASPA AQUÍ', 140, 85);
-            
-            // 3. Cambiar el modo para "borrar" todo lo que dibujamos antes
+            ctx.fillText('RASPA AQUÍ', 140, 90);
             ctx.globalCompositeOperation = 'destination-out';
         }
 
         function scratch(e) {
             if (!isDrawing) return;
             const rect = canvas.getBoundingClientRect();
-            // Soporte para touch y mouse
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            
             const x = clientX - rect.left;
             const y = clientY - rect.top;
-            
-            ctx.lineWidth = 45; // Raspado más ancho
+            ctx.lineWidth = 50;
             ctx.lineCap = 'round';
             ctx.beginPath();
             ctx.arc(x, y, 25, 0, Math.PI * 2);
             ctx.fill();
-        }
-
-        canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
-        canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); e.preventDefault(); }, {passive: false});
-        
-        canvas.addEventListener('mousemove', scratch);
-        canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); }, {passive: false});
-        
-        canvas.addEventListener('mouseup', () => isDrawing = false);
-        canvas.addEventListener('touchend', () => isDrawing = false);
-        
-        // Inicializar
-        initCanvas();
-
-        // Contador
-        const fechaInicio = new Date('July 23, 2023 00:00:00').getTime();
-        setInterval(function() {
-            const ahora = new Date().getTime();
-            const distancia = ahora - fechaInicio;
-            const dias = Math.floor(distancia / (1000*60*60*24));
-            const horas = Math.floor((distancia % (1000*60*60*24)) / (1000*60*60));
-            const minutos = Math.floor((distancia % (1000*60*60)) / (1000*60));
-            const segundos = Math.floor((distancia % (1000*60)) / 1000);
-            document.getElementById("contador").innerHTML = dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
-        }, 1000);
-    </script>
-</body>
-</html>
