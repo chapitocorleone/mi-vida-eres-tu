@@ -30,10 +30,13 @@
 
         /* Cupones */
         .cupones-container { display: flex; flex-direction: column; gap: 20px; align-items: center; margin: 30px 0 60px 0; }
-        .cupon { background: white; color: black; width: 85%; max-width: 300px; padding: 15px; border-radius: 10px; position: relative; border-left: 8px dashed black; box-shadow: 0 4px 10px rgba(255,255,255,0.1); }
+        .cupon-link { text-decoration: none; width: 85%; max-width: 300px; display: block; transition: transform 0.2s; }
+        .cupon-link:active { transform: scale(0.95); }
+        
+        .cupon { background: white; color: black; width: 100%; padding: 15px; border-radius: 10px; position: relative; border-left: 8px dashed black; box-shadow: 0 4px 10px rgba(255,255,255,0.1); text-align: center; box-sizing: border-box; }
         .cupon h3 { margin: 0; font-size: 1.1em; color: #ff4d4d; text-transform: uppercase; }
-        .cupon p { margin: 5px 0 0; font-size: 0.9em; font-weight: bold; }
-        .cupon::after { content: "VALE POR:"; position: absolute; top: -10px; left: 15px; background: #ff4d4d; color: white; font-size: 0.6em; padding: 2px 8px; border-radius: 5px; }
+        .cupon p { margin: 5px 0 0; font-size: 0.85em; font-weight: bold; color: #555; }
+        .cupon::after { content: "CANJEAR:"; position: absolute; top: -10px; left: 15px; background: #ff4d4d; color: white; font-size: 0.6em; padding: 2px 8px; border-radius: 5px; }
 
         .heart-rain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
         .heart { position: absolute; color: #ff4d4d; opacity: 0.5; animation: fall linear infinite; }
@@ -71,9 +74,19 @@
     </div>
 
     <div class="cupones-container">
-        <div class="cupon"><h3>CENA ESPECIAL</h3><p>En tu lugar favorito 🍽️</p></div>
-        <div class="cupon"><h3>UNA CAGUAMA</h3><p>Bien helada para los dos 🍻</p></div>
-        <div class="cupon"><h3>NOCHE DE CINE</h3><p>Tú eliges la película 🍿</p></div>
+        
+        <a href="https://wa.me/528126387022?text=¡Amor!%20Quiero%20canjear%20mi%20cupón%20de%20Cena%20Especial%20🍽️" class="cupon-link">
+            <div class="cupon"><h3>CENA ESPECIAL</h3><p>Toca para canjear 🍽️</p></div>
+        </a>
+
+        <a href="https://wa.me/528126387022?text=¡Mi%20vida!%20Se%20me%20antojó%20canjear%20mi%20cupón%20de%20una%20Caguama%20helada%20🍻" class="cupon-link">
+            <div class="cupon"><h3>UNA CAGUAMA</h3><p>Toca para canjear 🍻</p></div>
+        </a>
+
+        <a href="https://wa.me/528126387022?text=¡Gordo!%20Vamos%20a%20usar%20el%20cupón%20de%20Noche%20de%20Cine%20🍿" class="cupon-link">
+            <div class="cupon"><h3>NOCHE DE CINE</h3><p>Toca para canjear 🍿</p></div>
+        </a>
+
     </div>
 
     <script>
@@ -115,7 +128,6 @@
         canvas.addEventListener('mouseup', () => isDrawing = false);
         canvas.addEventListener('touchend', () => isDrawing = false);
         
-        // Esto asegura que cada que cargue la página se reinicie el canvas
         window.addEventListener('load', initCanvas);
 
         const fechaInicio = new Date('July 23, 2023 00:00:00').getTime();
